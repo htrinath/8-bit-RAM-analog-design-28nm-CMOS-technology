@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--Created by Custom Compiler (TM), build , on Fri Feb 25 11:32:40 2022-->
+<file-format name="stateData" version="1.0">
+ <attribute type="giString" name="description" value=""/>
+ <attribute type="dmCellView" name="design" value="th_analog_circuits/th_1bit_RAM/schematic"/>
+ <attribute type="giBoolean" name="enabled" value="1"/>
+ <attribute type="giBoolean" name="enabledJobClass" value="0"/>
+ <attribute type="giString" name="migratedSimulator" value=""/>
+ <attribute type="giString" name="name" value="Testbench1"/>
+ <attribute type="dmCellView" name="openaccessState" value="//"/>
+ <attribute type="giString" name="simulator" value="PrimeSim"/>
+ <comment></comment>
+ <integration version="1"/>
+</file-format>
