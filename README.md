@@ -77,11 +77,11 @@ By placing the transistors as shown below we can obtain a low threshold 2-input 
 ### 2X4 Decoder:
 Using the above created NOR/Or gate and inverter we can make the 2X4 Decoder circuit as shown below:
 <p align="center">
-  <img src="Images/2X4_decoder_schematic.JPG"></br>
+  <img src="Images/2x4_decoder_schematic.JPG"></br>
   Fig. 6: 2X4 Decoder Schematic:
 </p>
 <p align="center">
-  <img src="Images/2X4_decoder_symbol.JPG"></br>
+  <img src="Images/2x4_decoder_symbol.JPG"></br>
   Fig. 7: 2X4 Decoder Symbol:
 </p>
 
@@ -106,7 +106,7 @@ Using the above created 3-input NOR/OR gate and a simple inverted the below sche
 ### 6T SRAM Cell:
 Using the simple inverter and interconnecting it as shown below, we obtain a 6T SRAM cell.
 <p align="center">
-  <img src="Images/6t_RAM_schematic.JPG"></br>
+  <img src="Images/6T_RAM_cell_schematic.JPG"></br>
   Fig. 11: 6T SRAM Schematic:
 </p>
 <p align="center">
@@ -163,7 +163,7 @@ After giving the required inputs and pins go to Tools-->PrimeWave to start the s
 
 ### 1-Bit SRAM Cell:
 <p align="center">
-  <img src="Images/1_bit_RAM_transient_1.JPG"></br>
+  <img src="Images/1_bit_RAM_transient_2.JPG"></br>
   Fig. 20: Transient Analysis of 1-Bit SRAM Cell:
 </p>
 
