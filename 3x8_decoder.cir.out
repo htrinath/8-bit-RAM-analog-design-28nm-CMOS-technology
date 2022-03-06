@@ -1,0 +1,92 @@
+*  Generated for: PrimeSim
+*  Design library name: th_analog_circuits
+*  Design cell name: th_3x8_decoder
+*  Design view name: schematic
+.lib 'saed32nm.lib' TT
+
+*Custom Compiler Version S-2021.09
+*Sat Feb 26 07:16:38 2022
+
+.global gnd!
+********************************************************************************
+* Library          : th_analog_circuits
+* Cell             : th_3_ip_OR_NOR_gate
+* View             : schematic
+* View Search List : hspice hspiceD schematic spice veriloga
+* View Stop List   : hspice hspiceD
+********************************************************************************
+.subckt th_3_ip_or_nor_gate a b c nor or vdd gnd_1
+xm15 nor b gnd_1 gnd_1 n105 w=0.1u l=0.03u nf=1 m=1
+xm16 nor a gnd_1 gnd_1 n105 w=0.1u l=0.03u nf=1 m=1
+xm17 nor c gnd_1 gnd_1 n105 w=0.1u l=0.03u nf=1 m=1
+xm28 or nor gnd_1 gnd_1 n105 w=0.1u l=0.03u nf=1 m=1
+xm12 net17 a vdd vdd p105 w=0.1u l=0.03u nf=1 m=1
+xm13 net21 c net17 net17 p105 w=0.1u l=0.03u nf=1 m=1
+xm14 nor b net21 net21 p105 w=0.1u l=0.03u nf=1 m=1
+xm27 or nor vdd vdd p105 w=0.1u l=0.03u nf=1 m=1
+.ends th_3_ip_or_nor_gate
+
+********************************************************************************
+* Library          : th_analog_circuits
+* Cell             : th_inverter_new
+* View             : schematic
+* View Search List : hspice hspiceD schematic spice veriloga
+* View Stop List   : hspice hspiceD
+********************************************************************************
+.subckt th_inverter_new in out
+xm0 out in net2 net2 p105 w=0.1u l=0.03u nf=1 m=1
+xm1 out in gnd! gnd! n105 w=0.1u l=0.03u nf=1 m=1
+v2 net2 gnd! dc=1.2
+.ends th_inverter_new
+
+********************************************************************************
+* Library          : th_analog_circuits
+* Cell             : th_3x8_decoder
+* View             : schematic
+* View Search List : hspice hspiceD schematic spice veriloga
+* View Stop List   : hspice hspiceD
+********************************************************************************
+xi7 a2 a1 a0 d0 net40 net56 gnd! th_3_ip_or_nor_gate
+xi6 a2 a1 net67 d1 net38 net56 gnd! th_3_ip_or_nor_gate
+xi5 a2 a0 net65 d2 net36 net56 gnd! th_3_ip_or_nor_gate
+xi4 a2 net65 net67 d3 net34 net56 gnd! th_3_ip_or_nor_gate
+xi3 a1 a0 net69 d4 net24 net56 gnd! th_3_ip_or_nor_gate
+xi2 a1 net69 net67 d5 net17 net56 gnd! th_3_ip_or_nor_gate
+xi1 a0 net69 net65 d6 net10 net56 gnd! th_3_ip_or_nor_gate
+xi0 net69 net65 net67 d7 net3 net56 gnd! th_3_ip_or_nor_gate
+v10 a0 gnd! dc=0 pulse ( 1.2 0 0 1p 1p 1u 2u )
+v9 a1 gnd! dc=0 pulse ( 1.2 0 0 1p 1p 2u 4u )
+v8 a2 gnd! dc=0 pulse ( 1.2 0 0 1p 1p 4u 8u )
+xi13 a0 net67 th_inverter_new
+xi12 a1 net65 th_inverter_new
+xi11 a2 net69 th_inverter_new
+v14 net56 gnd! dc=1.2
+
+
+
+
+
+
+
+
+.tran '1u' '10u' name=tran
+
+.option primesim_remove_probe_prefix = 0
+.probe v(*) i(*) level=1
+.probe tran v(a0) v(a1) v(a2) v(d0) v(d1) v(d2) v(d3) v(d4) v(d5) v(d6) v(d7)
+
+.temp 25
+
+
+
+.option primesim_output=wdf
+
+
+.option parhier = LOCAL
+
+
+
+
+
+
+.end

@@ -1,0 +1,156 @@
+*  Generated for: PrimeSim
+*  Design library name: th_analog_circuits
+*  Design cell name: th_4_bit_RAM
+*  Design view name: schematic
+.lib 'saed32nm.lib' TT
+
+*Custom Compiler Version S-2021.09
+*Sat Feb 26 07:20:26 2022
+
+.global gnd!
+********************************************************************************
+* Library          : th_analog_circuits
+* Cell             : th_NAND_AND_gate
+* View             : schematic
+* View Search List : hspice hspiceD schematic spice veriloga
+* View Stop List   : hspice hspiceD
+********************************************************************************
+.subckt th_nand_and_gate a and b nand gnd_1 vdd
+xm4 and nand vdd vdd p105 w=0.1u l=0.03u nf=1 m=1
+xm1 nand b vdd vdd p105 w=0.1u l=0.03u nf=1 m=1
+xm0 nand a vdd vdd p105 w=0.1u l=0.03u nf=1 m=1
+xm5 and nand gnd_1 gnd_1 n105 w=0.1u l=0.03u nf=1 m=1
+xm3 net14 b gnd_1 gnd_1 n105 w=0.1u l=0.03u nf=1 m=1
+xm2 nand a net14 net14 n105 w=0.1u l=0.03u nf=1 m=1
+.ends th_nand_and_gate
+
+********************************************************************************
+* Library          : th_analog_circuits
+* Cell             : th_inverter_new
+* View             : schematic
+* View Search List : hspice hspiceD schematic spice veriloga
+* View Stop List   : hspice hspiceD
+********************************************************************************
+.subckt th_inverter_new in out
+xm0 out in net2 net2 p105 w=0.1u l=0.03u nf=1 m=1
+xm1 out in gnd! gnd! n105 w=0.1u l=0.03u nf=1 m=1
+v2 net2 gnd! dc=1.2
+.ends th_inverter_new
+
+********************************************************************************
+* Library          : th_analog_circuits
+* Cell             : th_2x4_decoder
+* View             : schematic
+* View Search List : hspice hspiceD schematic spice veriloga
+* View Stop List   : hspice hspiceD
+********************************************************************************
+.subckt th_2x4_decoder a0 a1 d0 d1 d2 d3 gnd_1 vdd
+xi12 net42 d0 net43 net38 gnd_1 vdd th_nand_and_gate
+xi2 a0 d3 a1 net15 gnd_1 vdd th_nand_and_gate
+xi1 a0 d1 net43 net9 gnd_1 vdd th_nand_and_gate
+xi0 a1 d2 net42 net3 gnd_1 vdd th_nand_and_gate
+xi5 a0 net42 th_inverter_new
+xi4 a1 net43 th_inverter_new
+.ends th_2x4_decoder
+
+********************************************************************************
+* Library          : th_analog_circuits
+* Cell             : th_inverter_new_vdd_gnd_pins
+* View             : schematic
+* View Search List : hspice hspiceD schematic spice veriloga
+* View Stop List   : hspice hspiceD
+********************************************************************************
+.subckt th_inverter_new_vdd_gnd_pins gnd_1 in out vdd
+xm0 out in gnd_1 gnd_1 n105 w=0.1u l=0.03u nf=1 m=1
+xm1 out in vdd vdd p105 w=0.1u l=0.03u nf=1 m=1
+.ends th_inverter_new_vdd_gnd_pins
+
+********************************************************************************
+* Library          : th_analog_circuits
+* Cell             : th_6t_ram_cell
+* View             : schematic
+* View Search List : hspice hspiceD schematic spice veriloga
+* View Stop List   : hspice hspiceD
+********************************************************************************
+.subckt th_6t_ram_cell bl blb gnd_1 q qb vdd wl
+xm1 qb wl blb gnd! n105 w=0.1u l=0.03u nf=1 m=1
+xm0 q wl bl gnd! n105 w=0.1u l=0.03u nf=1 m=1
+xi10 gnd_1 q qb vdd th_inverter_new_vdd_gnd_pins
+xi11 gnd_1 qb q vdd th_inverter_new_vdd_gnd_pins
+.ends th_6t_ram_cell
+
+********************************************************************************
+* Library          : th_analog_circuits
+* Cell             : th_RAM_writer_ckt
+* View             : schematic
+* View Search List : hspice hspiceD schematic spice veriloga
+* View Stop List   : hspice hspiceD
+********************************************************************************
+.subckt th_ram_writer_ckt bl blb din gnd_1 vdd wl
+xi1 wl net10 din net14 gnd_1 vdd th_nand_and_gate
+xi2 gnd_1 net14 bl vdd th_inverter_new_vdd_gnd_pins
+xi0 gnd_1 net10 blb vdd th_inverter_new_vdd_gnd_pins
+.ends th_ram_writer_ckt
+
+********************************************************************************
+* Library          : th_analog_circuits
+* Cell             : th_1bit_RAM
+* View             : schematic
+* View Search List : hspice hspiceD schematic spice veriloga
+* View Stop List   : hspice hspiceD
+********************************************************************************
+.subckt th_1bit_ram din dout gnd_1 r_en vdd wl
+xi14 net79 net80 gnd_1 net74 net53 vdd wl th_6t_ram_cell
+xi23 net74 dout r_en net56 gnd_1 vdd th_nand_and_gate
+xi25 net79 net80 din gnd_1 vdd wl th_ram_writer_ckt
+.ends th_1bit_ram
+
+********************************************************************************
+* Library          : th_analog_circuits
+* Cell             : th_4_bit_RAM
+* View             : schematic
+* View Search List : hspice hspiceD schematic spice veriloga
+* View Stop List   : hspice hspiceD
+********************************************************************************
+xi0 a0 a1 net186 net26 net20 net83 gnd! net194 th_2x4_decoder
+xi46 din dout0 gnd! net194 net194 net186 th_1bit_ram
+xi3 din dout1 gnd! net194 net194 net26 th_1bit_ram
+xi2 din dout2 gnd! net194 net194 net20 th_1bit_ram
+xi1 din dout3 gnd! net194 net194 net83 th_1bit_ram
+v5 net194 gnd! dc=1.8
+v47 din gnd! dc=0 pulse ( 0 1.8 0 1p 1p 4u 8u )
+v7 a0 gnd! dc=0 pulse ( 0 1.8 0 1p 1p 1u 2u )
+v6 a1 gnd! dc=0 pulse ( 0 1.8 0 1p 1p 2u 4u )
+
+
+
+
+
+
+
+
+.tran '1u' '10u' name=tran
+.dcOP
+
+.option primesim_remove_probe_prefix = 0
+.probe v(*) i(*) level=1
+.probe p(*)
+.probe power
+.probe tran v(a0) v(a1) v(din) v(dout0) v(dout1) v(dout2) v(dout3)
+.probe dc v(dout0) v(dout1)
+
+.temp 25
+
+
+
+.option primesim_output=wdf
+
+
+.option parhier = LOCAL
+
+
+
+
+
+
+.end
